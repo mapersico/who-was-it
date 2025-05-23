@@ -8,8 +8,11 @@ import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { testController } from './api/controllers/test.controller';
+
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
+const controllers = [testController];
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
@@ -34,8 +37,13 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
-  }),
+  })
 );
+
+controllers.forEach((controller) => {
+  // Initialize the controller's routes
+  app.use("/api/v1", controller.router);
+});
 
 /**
  * Handle all other requests by rendering the Angular application.
@@ -44,7 +52,7 @@ app.use('/**', (req, res, next) => {
   angularApp
     .handle(req)
     .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
+      response ? writeResponseToNodeResponse(response, res) : next()
     )
     .catch(next);
 });
