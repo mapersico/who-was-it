@@ -1,4 +1,4 @@
-# Etapa 1: Construcción de la aplicación Angular
+ Etapa 1: Construcción de la aplicación Angular
 FROM node:20.13.1-alpine3.19 AS build
 WORKDIR /app
 # Copiar package.json y package-lock.json para instalar dependencias
@@ -13,12 +13,15 @@ RUN npm run build
 FROM node:20.13.1-alpine3.19
 # Crear un usuario no root para mayor seguridad
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
+# Ajustar permisos del directorio de trabajo antes de cambiar al usuario no root
 WORKDIR /usr/app
+RUN chown appuser:appgroup /usr/app
+USER appuser
 # Copiar los archivos generados en la etapa de construcción
 COPY --from=build --chown=appuser:appgroup /app/dist/who-was-it ./dist/who-was-it
+# Copiar package.json y package-lock.json
+COPY --chown=appuser:appgroup package*.json ./
 # Instalar solo las dependencias de producción
-COPY package*.json ./
 RUN npm ci --omit=dev
 # Exponer el puerto (Captain Rover usará el puerto configurado, por defecto 4000 para Angular SSR)
 EXPOSE 4000
