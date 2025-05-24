@@ -1,4 +1,4 @@
- Etapa 1: Construcción de la aplicación Angular
+# Etapa 1: Construcción de la aplicación Angular
 FROM node:20.13.1-alpine3.19 AS build
 WORKDIR /app
 # Copiar package.json y package-lock.json para instalar dependencias
