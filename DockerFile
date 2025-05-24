@@ -19,8 +19,8 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy dist folder and package.json from build stage
-COPY --from=build-stage /app/dist /app/dist
-COPY --from=build-stage /app/package*.json ./
+COPY --from=build-stage /dist app/dist
+COPY --from=build-stage app/package*.json ./
 
 # Install only prod deps
 RUN npm install --omit=dev
