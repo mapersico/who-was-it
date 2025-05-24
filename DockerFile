@@ -25,4 +25,4 @@ RUN npm install --omit=dev
 EXPOSE 4000
 
 # Ejecutar el servidor SSR
-CMD ["node", "dist/who-was-it/server/server.mjs"]
+RUN npm run serve:ssr
