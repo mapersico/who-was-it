@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:who-was-it": "node dist/who-was-it/server/server.mjs",
-    "build:ssr": "ng build && ng run who-was-it:server",
+    "build:ssr": "ng run who-was-it:ssr",
     "serve:ssr": "node dist/who-was-it/server/server.mjs"
   },
   "private": true,
