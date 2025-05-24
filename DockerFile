@@ -3,30 +3,32 @@ FROM node:20-alpine as build-stage
 
 WORKDIR /app
 
-# Copy dependencies
+# Copiamos los package.json
 COPY package*.json ./
+
+# Instalamos las dependencias
 RUN npm install
 
-# Copiar rest of the project
+# Copiamos el resto del proyecto
 COPY . .
 
-# Build Angular SSR
+# Ejecutamos el build de Angular SSR
 RUN npm run build
 
-# Stage 2: Production
+# Stage 2: Producción
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy dist folder and package.json from build stage
-COPY --from=build-stage /dist app/dist
-COPY --from=build-stage app/package*.json ./
+# Copiamos solo lo necesario desde el build stage
+COPY --from=build-stage /app/dist/who-was-it ./dist/who-was-it
+COPY --from=build-stage /app/package*.json ./
 
-# Install only prod deps
+# Instalamos solo dependencias de producción
 RUN npm install --omit=dev
 
-# Expose the port the app runs on
+# Exponemos el puerto en el que correrá la app
 EXPOSE 4000
 
-# Command to run the app
-CMD ["node", "dist/server/main.server.mjs"]
+# Comando para ejecutar la app SSR
+CMD ["node", "dist/who-was-it/server/main.server.mjs"]
