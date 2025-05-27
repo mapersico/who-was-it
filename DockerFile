@@ -17,6 +17,10 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /usr/app
 RUN chown appuser:appgroup /usr/app
 USER appuser
+
+ARG OMDB_API_KEY
+ENV OMDB_API_KEY=${OMDB_API_KEY}
+
 # Copiar los archivos generados en la etapa de construcción
 COPY --from=build --chown=appuser:appgroup /app/dist/who-was-it ./dist/who-was-it
 # Copiar package.json y package-lock.json
