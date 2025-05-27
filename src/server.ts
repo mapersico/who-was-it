@@ -8,26 +8,24 @@ import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { testController } from './api/controllers/test.controller';
+import { titleController } from './api/controllers/title.controller';
+import { castController } from './api/controllers/cast.controller';
+
+import 'dotenv/config';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
-const controllers = [testController];
+const controllers = [castController, titleController];
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+app.use(express.json());
+
+controllers.forEach((controller) => {
+  // Initialize the controller's routes
+  app.use("/api/v1", controller.router);
+});
 
 /**
  * Serve static files from /browser
@@ -39,11 +37,6 @@ app.use(
     redirect: false,
   })
 );
-
-controllers.forEach((controller) => {
-  // Initialize the controller's routes
-  app.use("/api/v1", controller.router);
-});
 
 /**
  * Handle all other requests by rendering the Angular application.
