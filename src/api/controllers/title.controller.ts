@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BaseController, ResponseHanlder } from '../base/base.controller';
+import { BaseController, ResponseHandler } from '../base/base.controller';
 import { TitleService } from '../services/title.service';
 
 enum RoutePath {
@@ -28,7 +28,7 @@ class TitleController extends BaseController {
       query?.toString() || ''
     );
 
-    return res.json(new ResponseHanlder(200, result));
+    return res.json(new ResponseHandler(200, result));
   }
 }
 
