@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
-export class ResponseHanlder<T> {
+export class ResponseHandler<T> {
   statusCode: number;
   data: T;
 

@@ -32,6 +32,7 @@ export interface ResponseMultipleResults {
 export interface MediaItem {
   id: number;
   name: string;
+  overview: string;
   releaseDate: string;
   posterUrl: string;
   mediaType: MediaType;

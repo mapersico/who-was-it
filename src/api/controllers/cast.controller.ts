@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BaseController, ResponseHanlder } from '../base/base.controller';
+import { BaseController, ResponseHandler } from '../base/base.controller';
 import { CastService } from '../services/cast.services';
 
 enum RoutePath {
@@ -26,7 +26,7 @@ class CastController extends BaseController {
     const { titles } = req.body;
     const result = await this._castService.getCastInCommon(titles);
 
-    return res.json(new ResponseHanlder(200, result));
+    return res.json(new ResponseHandler(200, result));
   }
 }
 
