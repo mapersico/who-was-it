@@ -3,7 +3,9 @@ import { Injectable, signal, computed, effect } from '@angular/core';
 import { MediaItem } from '../../core/models/title.model';
 import { TitleRepository } from '../../core/repositories/titie.repository';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TitleService {
   private mediaItems = signal<MediaItem[]>([]);
   private selectedTitles = signal<MediaItem[]>([]);

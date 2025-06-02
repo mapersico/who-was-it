@@ -1,15 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ThrottledInputComponent } from '../../../shared/components/throttled-input.component';
+import { TitleItemComponent } from '../title-item/title-item.component';
 import { TitleService } from '../../../shared/services/title.service';
 import { MediaItem } from '../../../core/models/title.model';
-import { TitleItemComponent } from '../title-item/title-item.component';
 
 @Component({
   selector: 'app-title-picker',
   imports: [FormsModule, ThrottledInputComponent, TitleItemComponent],
-  providers: [TitleService],
   template: `
     <div class="title-picker_wrapper">
       @if (titleState.selectedTitles().length > 0) {
@@ -30,21 +29,21 @@ import { TitleItemComponent } from '../title-item/title-item.component';
         [clearInput]="clearInput()"
         (throttledValue)="onSearchChange($event)"
       ></app-throttled-input>
-      @if (titleState.loading()) {
-      <div class="title-picker_result">
-        <p class="loading">Loading...</p>
-      </div>
-      } @if (titleState.mediaItems().length > 0 && !titleState.loading()) {
-      <div class="title-picker_result">
-        @for (item of titleState.mediaItems(); track item.id) {
-        <app-title-item
-          (itemSelected)="handleSelectedTitle($event)"
-          [item]="item"
-        ></app-title-item>
-        }
-      </div>
+    </div>
+    @if (titleState.loading()) {
+    <div class="title-picker_result animate__animated animate__fadeIn">
+      <p class="loading">Loading...</p>
+    </div>
+    } @if (titleState.mediaItems().length > 0 && !titleState.loading()) {
+    <div class="title-picker_result animate__animated animate__fadeIn">
+      @for (item of titleState.mediaItems(); track item.id) {
+      <app-title-item
+        (itemSelected)="handleSelectedTitle($event)"
+        [item]="item"
+      ></app-title-item>
       }
     </div>
+    }
   `,
   styleUrl: './title-picker.component.scss',
 })
@@ -52,6 +51,7 @@ export class TitlePickerComponent {
   private readonly titleService = inject(TitleService);
   readonly titleState = this.titleService.state;
   clearInput = signal(false);
+  dataChanged = output();
 
   onSearchChange(query: string) {
     if (query.trim().length && query.length > 2) {
@@ -71,11 +71,13 @@ export class TitlePickerComponent {
       title,
     ]);
     setTimeout(() => this.clearInput.set(false), 0);
+    this.dataChanged.emit();
   }
 
   handleRemovedTitle(title: MediaItem) {
     this.titleService.updateSelectedTitles(
       this.titleState.selectedTitles().filter((item) => item.id !== title.id)
     );
+    this.dataChanged.emit();
   }
 }
