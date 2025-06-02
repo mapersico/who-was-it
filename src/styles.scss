@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'animate.css';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,6 +7,47 @@
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   height: 100dvh;
+}
+
+body::before {
+  border-radius: 20px;
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: url("../public/background.webp") repeat center center;
+  background-size: cover;
+  box-shadow: 0 0 25px 25px var(--brand-color);
+  filter: blur(5px);
+  z-index: -1;
+}
+
+:root {
+  --brand-color: #ffae00;
+  --secondary-color: #000000ad;
+  --text-color: #ebebeb;
+  --secondary-text-color: #afafaf;
+  --accent-color: #181105ad;
+}
+
+.loading-glow {
+  box-shadow: inset 0 0 5px 5px var(--brand-color);
+  animation: breathing 4s infinite ease-in-out;
+}
+
+@keyframes breathing {
+  0% {
+    box-shadow: inset 0 0 5px 5px var(--brand-color);
+  }
+  50% {
+    box-shadow: inset 0 0 500px 25px var(--brand-color);
+  }
+  100% {
+    box-shadow: inset 0 0 5px 5px var(--brand-color);
+  }
 }

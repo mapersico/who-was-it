@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { CompareTitlesPageComponent } from './features/compare-titles/page/compare-titles-page/compare-titles-page.component';
+import { CompareTitlesPageComponent } from './features/compare-titles/compare-titles-page/compare-titles-page.component';
 
 export const routes: Routes = [
   {
