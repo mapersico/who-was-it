@@ -1,0 +1,54 @@
+"server only";
+
+import {
+  MediaItem,
+  MediaType,
+  ResponseMultipleResults,
+  TmdbSearchResult,
+} from "@/app/models/api.model";
+
+import { fetchJson } from "../utils/utils";
+import { _tmdbPosterBaseUrl, tmdbEndpoints } from "./tmdb.service";
+
+const deduplicateByOriginalName = (
+  results: TmdbSearchResult[]
+): TmdbSearchResult[] => {
+  const map = new Map<string, TmdbSearchResult>();
+
+  for (const item of results) {
+    const existing = map.get(item.name);
+    if (!existing || item.popularity > existing.popularity) {
+      map.set(item.name, item);
+    }
+  }
+
+  return Array.from(map.values());
+};
+
+const mapToMediaItemAdapter = (item: TmdbSearchResult): MediaItem => {
+  return {
+    id: item.id,
+    name: item.name,
+    overview: item.overview,
+    releaseDate: item.first_air_date ?? item.release_date ?? "N/A",
+    posterUrl: `${_tmdbPosterBaseUrl}${item.poster_path}`,
+    mediaType: MediaType[item.media_type],
+  };
+};
+
+export async function getTvAndMoviesByQuery(
+  query: string
+): Promise<MediaItem[]> {
+  const data = await fetchJson<ResponseMultipleResults>(
+    tmdbEndpoints.TitlesByQuery(query)
+  );
+  const resultByPopularity: TmdbSearchResult[] = deduplicateByOriginalName(
+    data.results
+  );
+
+  return resultByPopularity
+    .filter(
+      (item) => item.original_language === "en" && item.name && item.poster_path
+    )
+    .map((item) => mapToMediaItemAdapter(item));
+}

@@ -1,0 +1,49 @@
+.actor {
+  border: 1px solid var(--brand-color);
+  background: var(--accent-color);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  width: 450px;
+  height: 150px;
+  overflow-y: auto;
+  transition: all 200ms;
+  display: grid;
+  grid-template-columns: 120px auto;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px var(--brand-color);
+  }
+
+  &_poster {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    width: 120px;
+    height: 145px;
+    border-radius: 6px 0px 0px 6px;
+    object-fit: cover;
+    display: block;
+
+    &.loaded {
+      opacity: 1;
+    }
+
+    &_wrapper {
+      max-width: 100px;
+      height: 100%;
+      background-color: #444;
+      border-radius: 6px 0px 0px 6px;
+      position: relative;
+      overflow: hidden;
+    }
+  }
+
+  &_roles {
+    padding: 0.5rem 0;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    list-style-type: "\2726";
+  }
+}
