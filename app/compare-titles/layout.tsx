@@ -1,12 +1,15 @@
 import './layout.scss';
 import SearchTitle from "../components/search-title/search-title";
+import { Suspense } from 'react';
 
-export default function CompareTitlesLayout({ children }: { children: React.ReactNode, params: string }) {
+export default function CompareTitlesLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <SearchTitle />
-      {children}
+      <Suspense>
+        <SearchTitle />
+        {children}
+      </Suspense>
     </div>
   );
 }
