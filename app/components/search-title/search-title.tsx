@@ -8,6 +8,8 @@ import { useTitleContext } from "@/app/hooks/useTitle/title.context";
 import './search-title.scss';
 
 import Logo from "../../../public/logo.svg";
+import TMDBLogo from "../../../public/tmdb-logo.svg";
+
 import { TitlePicker } from "../title-picker/title-picker";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -44,7 +46,8 @@ const SearchTitle = () => {
         }
       </div>
       <p className="compare-titles-page_powered-by">
-        Powered by TMDB
+        Powered by
+        <Image src={TMDBLogo} alt="tmdb" width="120" height="50" />
       </p>
     </div>
   );
