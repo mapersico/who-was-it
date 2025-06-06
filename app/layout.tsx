@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   description: "Compare the cast of movies and TV shows",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
