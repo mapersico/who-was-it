@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
 import { ActorItem as ActorItemType } from "@/app/models/api.model";
 
 import './actor-item.scss';
@@ -11,16 +8,11 @@ interface ActorItemProps {
 }
 
 const ActorItem = ({ item }: ActorItemProps) => {
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <div className="actor">
       <div className="actor_poster_wrapper">
         <Image
-          className={`actor_poster ${loaded ? "loaded" : ""}`}
-          onLoad={({ currentTarget }) => {
-            if (currentTarget.complete) setLoaded(true);
-          }}
+          className="actor_poster"
           src={item.profileUrl}
           height={100}
           width={100}

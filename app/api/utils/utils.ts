@@ -1,3 +1,5 @@
+"server only";
+
 export const fetchJson = async <T>(url: string): Promise<T> => {
   const result = await fetch(url, {
     method: "GET",

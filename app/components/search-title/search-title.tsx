@@ -21,7 +21,6 @@ const SearchTitle = ({
   const { selectedTitles, searchedTitles, setSelectedTitles } = useTitleContext();
   const router = useRouter();
   const pathname = usePathname();
-  const host = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     try {
@@ -39,9 +38,9 @@ const SearchTitle = ({
     router.push(`${path}?titles=${compressedTitles}`);
   }
 
-  const handleCopyUrl = () => {
+  const handleCopyUrl = async () => {
     const compressedTitles = compressToEncodedURIComponent(JSON.stringify(selectedTitles));
-    navigator.clipboard.writeText(`${host}/compare-titles/results?titles=${compressedTitles}`);
+    await navigator.clipboard.writeText(`${window.location.origin}/compare-titles/results?titles=${compressedTitles}`);
   }
 
   return (
