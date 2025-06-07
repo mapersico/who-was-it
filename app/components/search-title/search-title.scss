@@ -63,7 +63,7 @@
 
     @media screen and (max-width: 768px) {
       position: absolute;
-      top: 0;
+      top: 1rem;
       left: 1rem;
       justify-content: center;
       width: 100%;
@@ -73,6 +73,10 @@
 
 .top-blank {
   top: 28dvh;
+
+  @media screen and (max-width: 768px) {
+    top: 2dvh;
+  }
 }
 
 .top-results {

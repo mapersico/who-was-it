@@ -1,10 +1,13 @@
 import { NextRequest } from "next/server";
 import { getCastInCommon } from "../../services/cast.service";
+import { decompressFromEncodedURIComponent } from "lz-string";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   try {
-    const titles = atob(body.titles?.toString() || "");
+    const titles = decompressFromEncodedURIComponent(
+      body.titles?.toString() || ""
+    );
     const titlesArray = JSON.parse(titles);
     const castsInCommon = await getCastInCommon(titlesArray);
 

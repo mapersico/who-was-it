@@ -1,54 +1,70 @@
 "use client";
 
-import { useEffect } from "react";
-import Image from "next/image";
+import { ReactNode, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 
 import { useTitleContext } from "@/app/hooks/useTitle/title.context";
+import { TitlePicker } from "../title-picker/title-picker";
 
 import './search-title.scss';
+import { MediaItem } from "@/app/models/api.model";
 
-import Logo from "../../../public/logo.svg";
-import TMDBLogo from "../../../public/tmdb-logo.svg";
+interface SearchTitleProps {
+  header: ReactNode;
+}
 
-import { TitlePicker } from "../title-picker/title-picker";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-const SearchTitle = () => {
+const SearchTitle = ({
+  header
+}: SearchTitleProps) => {
   const searchParams = useSearchParams();
-  const { selectedTitles, setSelectedTitles } = useTitleContext();
+  const { selectedTitles, searchedTitles, setSelectedTitles } = useTitleContext();
   const router = useRouter();
   const pathname = usePathname();
   const host = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     try {
-      const titles = atob(searchParams.get("titles")?.toString() || "")
-      setSelectedTitles(JSON.parse(titles));
+      const titles = searchParams.get("titles")?.toString() || "";
+      const decompressedTitles = decompressFromEncodedURIComponent(titles);
+      setSelectedTitles(JSON.parse(decompressedTitles) || []);
     } catch {
       router.push("/compare-titles");
       setSelectedTitles([]);
     }
   }, [router, searchParams, setSelectedTitles]);
 
+  const handleUrlRedirect = (path: string, titleToExclude?: MediaItem) => {
+    const compressedTitles = compressToEncodedURIComponent(JSON.stringify(selectedTitles.filter((title) => title.id !== titleToExclude?.id)));
+    router.push(`${path}?titles=${compressedTitles}`);
+  }
+
+  const handleCopyUrl = () => {
+    const compressedTitles = compressToEncodedURIComponent(JSON.stringify(selectedTitles));
+    navigator.clipboard.writeText(`${host}/compare-titles/results?titles=${compressedTitles}`);
+  }
+
   return (
-    <div className={`compare-titles-page_header top-results -fadeIn ${pathname === "/compare-titles" ? "top-blank" : ""}`}>
-      <Image src={Logo} alt="logo" width="225" height="225" />
-      <p>Compare the cast of movies and TV shows</p>
-      <TitlePicker onTitleRemoved={(item) => router.push(`/compare-titles?titles=${btoa(JSON.stringify(selectedTitles.filter((title) => title.id !== item.id)))}`)} />
+    <div className={`compare-titles-page_header -fadeIn top-blank ${(selectedTitles.length || searchedTitles.length) ? "top-results" : ""}`}>
+      {header}
+      <TitlePicker onTitleRemoved={(item) => handleUrlRedirect("/compare-titles", item)} />
       <div className="compare-titles-page_actions">
-        {selectedTitles.length === 2 && !pathname.includes("/results") && <button onClick={() => router.push(`/compare-titles/results?titles=${btoa(JSON.stringify(selectedTitles))}`)} className="compare-titles-page_action">
-          Compare
-        </button>}
-        {pathname === "/compare-titles/results" &&
-          <button onClick={() => navigator.clipboard.writeText(`${host}/compare-titles/results?titles=${btoa(JSON.stringify(selectedTitles))}`)} className="compare-titles-page_action">
-            Share
+        {selectedTitles.length === 2 && !pathname.includes("/results") && (
+          <button onClick={() => handleUrlRedirect("/compare-titles/results")} className="compare-titles-page_action">
+            Compare
           </button>
+        )}
+        {(pathname === "/compare-titles/results" && selectedTitles.length)
+          ? (
+            <button
+              onClick={handleCopyUrl}
+              className="compare-titles-page_action"
+            >
+              Share
+            </button>
+          ) : null
         }
       </div>
-      <p className="compare-titles-page_powered-by">
-        Powered by
-        <Image src={TMDBLogo} alt="tmdb" width="120" height="50" />
-      </p>
     </div>
   );
 }

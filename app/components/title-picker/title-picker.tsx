@@ -5,12 +5,8 @@ import { useTitleContext } from '@/app/hooks/useTitle/title.context';
 
 import DebouncedInput from "../debounced-input/debounced-input";
 import TitleItem from '../title-item/title-item';
-import { MediaItem } from '@/app/models/api.model';
+import { Endpoints, MediaItem } from '@/app/models/api.model';
 import { useState } from 'react';
-
-enum Endpoints {
-  getTitlesByQuery = "/api/compare-titles/get-titles-by-query",
-}
 
 interface TitlePickerProps {
   onTitleRemoved?: (item: MediaItem) => void;

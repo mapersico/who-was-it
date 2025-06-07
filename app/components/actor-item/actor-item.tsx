@@ -19,9 +19,7 @@ const ActorItem = ({ item }: ActorItemProps) => {
         <Image
           className={`actor_poster ${loaded ? "loaded" : ""}`}
           onLoad={({ currentTarget }) => {
-            if (currentTarget.complete) {
-              setLoaded(true);
-            }
+            if (currentTarget.complete) setLoaded(true);
           }}
           src={item.profileUrl}
           height={100}

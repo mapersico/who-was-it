@@ -157,3 +157,8 @@ export interface AdaptedRole {
   character: string;
   episodeCount: number;
 }
+
+export enum Endpoints {
+  getTitlesByQuery = "/api/compare-titles/get-titles-by-query",
+  getCastsInCommon = "/api/compare-titles/get-casts-in-common",
+}
