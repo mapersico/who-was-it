@@ -44,7 +44,7 @@ const SearchTitle = ({
   }
 
   return (
-    <div className={`compare-titles-page_header -fadeIn top-blank ${(selectedTitles.length || searchedTitles.length) ? "top-results" : ""}`}>
+    <div className={`compare-titles-page_header -fadeIn top-blank ${(selectedTitles.length || searchedTitles.length || pathname.includes("/results")) ? "top-results" : ""}`}>
       {header}
       <TitlePicker onTitleRemoved={(item) => handleUrlRedirect("/compare-titles", item)} />
       <div className="compare-titles-page_actions">
