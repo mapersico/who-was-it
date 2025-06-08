@@ -2,6 +2,7 @@ import './layout.scss';
 import SearchTitle from "../components/search-title/search-title";
 import { Suspense } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import Logo from "../../public/logo.svg";
 import TMDBLogo from "../../public/tmdb-logo.svg";
@@ -13,7 +14,9 @@ export default async function CompareTitlesLayout({ children }: { children: Reac
         <SearchTitle
           header={(
             <>
-              <Image src={Logo} alt="logo" width="225" height="225" />
+              <Link href="/compare-titles">
+                <Image src={Logo} alt="logo" width="225" height="225" />
+              </Link>
               <p>Compare the cast of movies and TV shows</p>
             </>
           )}

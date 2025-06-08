@@ -161,4 +161,6 @@ export interface AdaptedRole {
 export enum Endpoints {
   getTitlesByQuery = "/api/compare-titles/get-titles-by-query",
   getCastsInCommon = "/api/compare-titles/get-casts-in-common",
+  getSharedUrl = "/api/compare-titles/get-shared-url",
+  shareUrl = "/api/compare-titles/share-url",
 }

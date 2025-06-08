@@ -8,7 +8,7 @@ import { useTitleContext } from "@/app/hooks/useTitle/title.context";
 import { TitlePicker } from "../title-picker/title-picker";
 
 import './search-title.scss';
-import { MediaItem } from "@/app/models/api.model";
+import { Endpoints, MediaItem } from "@/app/models/api.model";
 
 interface SearchTitleProps {
   header: ReactNode;
@@ -40,7 +40,10 @@ const SearchTitle = ({
 
   const handleCopyUrl = async () => {
     const compressedTitles = compressToEncodedURIComponent(JSON.stringify(selectedTitles));
-    await navigator.clipboard.writeText(`${window.location.origin}/compare-titles/results?titles=${compressedTitles}`);
+    const result = await fetch(`${Endpoints.shareUrl}?titles=${compressedTitles}`);
+    const data: { id: string } = await result.json();
+
+    await navigator.clipboard.writeText(`${window.location.origin}/shared-url?id=${data.id}`);
   }
 
   return (
