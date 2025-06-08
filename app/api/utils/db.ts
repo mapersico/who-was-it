@@ -1,12 +1,18 @@
-"server only";
+"use server";
 
 import { MongoClient } from "mongodb";
 
-const uri = process.env["MONGODB_URI"] || "";
-const client = new MongoClient(uri);
+let client: MongoClient | null = null;
 
 export async function connectToDB() {
-  await client.connect();
+  const uri = process.env["MONGODB_URI"];
+  if (!uri) throw new Error("MONGODB_URI not defined");
+
+  if (!client) {
+    client = new MongoClient(uri);
+    await client.connect();
+  }
+
   const db = client.db("WhoWasIt");
   return db;
 }
