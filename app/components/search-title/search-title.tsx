@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 
@@ -8,17 +8,11 @@ import { useTitleContext } from "@/app/hooks/useTitle/title.context";
 import { TitlePicker } from "../title-picker/title-picker";
 
 import './search-title.scss';
-import { Endpoints, MediaItem } from "@/app/models/api.model";
+import { MediaItem } from "@/app/models/api.model";
 
-interface SearchTitleProps {
-  header: ReactNode;
-}
-
-const SearchTitle = ({
-  header
-}: SearchTitleProps) => {
+const SearchTitle = () => {
   const searchParams = useSearchParams();
-  const { selectedTitles, searchedTitles, setSelectedTitles } = useTitleContext();
+  const { selectedTitles, setSelectedTitles } = useTitleContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -38,17 +32,9 @@ const SearchTitle = ({
     router.push(`${path}?titles=${compressedTitles}`);
   }
 
-  const handleCopyUrl = async () => {
-    const compressedTitles = compressToEncodedURIComponent(JSON.stringify(selectedTitles));
-    const result = await fetch(`${Endpoints.shareUrl}?titles=${compressedTitles}`);
-    const data: { id: string } = await result.json();
-
-    await navigator.clipboard.writeText(`${window.location.origin}/shared-url?id=${data.id}`);
-  }
-
   return (
-    <div className={`compare-titles-page_header -fadeIn top-blank ${(selectedTitles.length || searchedTitles.length || pathname.includes("/results")) ? "top-results" : ""}`}>
-      {header}
+    <>
+      <p>Compare the cast of movies and TV shows</p>
       <TitlePicker onTitleRemoved={(item) => handleUrlRedirect("/compare-titles", item)} />
       <div className="compare-titles-page_actions">
         {selectedTitles.length === 2 && !pathname.includes("/results") && (
@@ -56,18 +42,8 @@ const SearchTitle = ({
             Compare
           </button>
         )}
-        {(pathname === "/compare-titles/results" && selectedTitles.length)
-          ? (
-            <button
-              onClick={handleCopyUrl}
-              className="compare-titles-page_action"
-            >
-              Share
-            </button>
-          ) : null
-        }
       </div>
-    </div>
+    </>
   );
 }
 
