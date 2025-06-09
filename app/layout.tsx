@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { TitleProvider } from "./hooks/useTitle/title.context";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 
 const geistSans = Poppins({
   variable: "--font-geist-sans",
@@ -24,21 +25,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable}`}>
-        <TitleProvider>
-          {children}
-          <ToastContainer
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-            position="bottom-center"
-          />
-        </TitleProvider>
+        <Suspense>
+          <TitleProvider>
+            {children}
+            <ToastContainer
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+              position="bottom-center"
+            />
+          </TitleProvider>
+        </Suspense>
       </body>
     </html>
   );

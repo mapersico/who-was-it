@@ -1,4 +1,5 @@
 import './layout.scss';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,7 +14,9 @@ export default async function CompareTitlesLayout({ children }: { children: Reac
         <Link href="/compare-titles">
           <Image src={Logo} alt="logo" width="200" height="180" />
         </Link>
-        {children}
+        <Suspense>
+          {children}
+        </Suspense>
       </SearchWrapper>
       <p className="compare-titles-page_powered-by">
         Powered by
