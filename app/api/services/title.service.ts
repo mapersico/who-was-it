@@ -16,9 +16,9 @@ const deduplicateByOriginalName = (
   const map = new Map<string, TmdbSearchResult>();
 
   for (const item of results) {
-    const existing = map.get(item.name);
+    const existing = map.get(item?.name || item?.title || "");
     if (!existing || item.popularity > existing.popularity) {
-      map.set(item.name, item);
+      map.set(item?.name || item?.title || "", item);
     }
   }
 
@@ -28,7 +28,7 @@ const deduplicateByOriginalName = (
 const mapToMediaItemAdapter = (item: TmdbSearchResult): MediaItem => {
   return {
     id: item.id,
-    name: item.name,
+    name: item?.name || item?.title || "",
     overview: item.overview,
     releaseDate: item.first_air_date ?? item.release_date ?? "N/A",
     posterUrl: `${_tmdbPosterBaseUrl}${item.poster_path}`,

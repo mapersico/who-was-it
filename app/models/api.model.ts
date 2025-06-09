@@ -8,7 +8,8 @@ type MediaTypeString = `${MediaType}`;
 export interface TmdbSearchResult {
   backdrop_path: string | null;
   id: number;
-  name: string;
+  name?: string;
+  title?: string;
   original_name: string;
   overview: string;
   poster_path: string | null;
