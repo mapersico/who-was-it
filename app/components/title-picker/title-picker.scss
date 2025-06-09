@@ -1,0 +1,62 @@
+.title-picker {
+  &_wrapper {
+    border: 1px solid var(--brand-color);
+    background: var(--secondary-color);
+    border-radius: 6px;
+    min-height: 60px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0.5rem 0;
+    gap: 1rem;
+    transition: all 0.5s ease-in-out;
+
+    &.load {
+      box-shadow: 0 0 5px 5px var(--brand-color);
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 350px;
+    }
+  }
+
+  &_selected {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &_input {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    width: 600px;
+    text-align: center;
+    outline: none;
+
+    @media (max-width: 600px) {
+      width: 300px;
+    }
+  }
+
+  &_result {
+    margin-top: 0.5rem;
+    max-width: 100%;
+    position: relative;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    overflow-y: auto;
+    max-height: 30dvh;
+    border-radius: 6px;
+    padding: 1rem 0;
+    z-index: 500;
+
+    & .loading {
+      text-align: center;
+    }
+  }
+}
