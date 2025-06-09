@@ -30,7 +30,7 @@ const mapToMediaItemAdapter = (item: TmdbSearchResult): MediaItem => {
     id: item.id,
     name: item?.name || item?.title || "",
     overview: item.overview,
-    releaseDate: item.first_air_date ?? item.release_date ?? "N/A",
+    releaseDate: item.first_air_date ?? item.release_date ?? "",
     posterUrl: `${_tmdbPosterBaseUrl}${item.poster_path}`,
     mediaType: MediaType[item.media_type],
   };
