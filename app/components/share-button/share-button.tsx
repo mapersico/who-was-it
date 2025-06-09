@@ -10,7 +10,7 @@ interface ShareButtonProps {
 }
 
 export default function ShareButton({ titles }: ShareButtonProps) {
-  const host = location.host;
+  const host = process.env.NEXT_PUBLIC_BASE_URL;
   const handleCopyUrl = async () => {
     try {
       const result = await fetch(`${Endpoints.shareUrl}?titles=${titles}`);
