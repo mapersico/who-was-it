@@ -21,7 +21,7 @@ export default function ShareButton({ titles }: ShareButtonProps) {
       toast.success("Copied to clipboard!");
     } catch (e) {
       console.error(e);
-      toast.error("Something went wrong!");
+      toast.error(JSON.stringify(e));
     }
   }
 
