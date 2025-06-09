@@ -1,7 +1,7 @@
 .item {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 60px auto;
+  grid-template-columns: 60px calc(100% - 60px);
   align-items: center;
   justify-content: center;
   cursor: pointer;
