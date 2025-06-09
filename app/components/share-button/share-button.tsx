@@ -19,7 +19,8 @@ export default function ShareButton({ titles }: ShareButtonProps) {
       await navigator.clipboard.writeText(`${host}/shared-url?id=${data.id}`);
 
       toast.success("Copied to clipboard!");
-    } catch {
+    } catch (e) {
+      console.error(e);
       toast.error("Something went wrong!");
     }
   }
