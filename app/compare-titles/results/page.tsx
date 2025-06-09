@@ -2,14 +2,17 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchParams } from "next/dist/server/request/search-params";
 
-import { ActorItem as ActorItemType, Endpoints } from "@/app/models/api.model";
+import { ActorItem as ActorItemType, Endpoints, MediaItem } from "@/app/models/api.model";
 import ActorItem from "@/app/components/actor-item/actor-item";
 import ShareButton from "@/app/components/share-button/share-button";
 
 import './page.scss';
+import { decompressFromEncodedURIComponent } from "lz-string";
+import TitleItem from "@/app/components/title-item/title-item";
 
 export default async function ResultsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const titles = (await searchParams).titles;
+  const decompressedTitles: MediaItem[] = JSON.parse(decompressFromEncodedURIComponent(titles?.toString() || ""));
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${Endpoints.getCastsInCommon}`, {
     method: "POST",
     headers: {
@@ -40,6 +43,11 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           <Link href="/compare-titles" className="anchor">
             Back to the homepage
           </Link>
+        </div>
+        <div className="cast-in-common-list_titles">
+          {decompressedTitles.length && decompressedTitles.map((title) => (
+            <TitleItem key={title.id} item={title} posterOnly readOnly />
+          ))}
         </div>
         <div className="cast-in-common-list -fadeIn">
           <div className="cast-in-common-list_actors">

@@ -8,11 +8,12 @@ import { useState } from 'react';
 interface TitleItemProps {
   item: MediaItem;
   posterOnly?: boolean;
+  readOnly?: boolean;
   onTitleSelect?: (item: MediaItem) => void;
   onTitleRemove?: (item: MediaItem) => void;
 }
 
-const TitleItem = ({ item, posterOnly = false, onTitleSelect, onTitleRemove }: TitleItemProps) => {
+const TitleItem = ({ item, posterOnly = false, readOnly = false, onTitleSelect, onTitleRemove }: TitleItemProps) => {
   const [hovered, setHovered] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -27,7 +28,7 @@ const TitleItem = ({ item, posterOnly = false, onTitleSelect, onTitleRemove }: T
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
       >
-        {hovered && (
+        {(hovered && !readOnly) && (
           <div className="item_poster_overlay" onClick={() => onTitleRemove?.(item)}>
             <p>Click to</p>
             <p>Remove</p>
