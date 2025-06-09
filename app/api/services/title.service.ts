@@ -46,9 +46,5 @@ export async function getTvAndMoviesByQuery(
     data.results
   );
 
-  return resultByPopularity
-    .filter(
-      (item) => item.original_language === "en" && item.name && item.poster_path
-    )
-    .map((item) => mapToMediaItemAdapter(item));
+  return resultByPopularity.map((item) => mapToMediaItemAdapter(item));
 }
