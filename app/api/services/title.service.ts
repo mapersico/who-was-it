@@ -46,5 +46,7 @@ export async function getTvAndMoviesByQuery(
     data.results
   );
 
-  return resultByPopularity.map((item) => mapToMediaItemAdapter(item));
+  return resultByPopularity
+    .map((item) => mapToMediaItemAdapter(item))
+    .filter((item) => item.name && item.releaseDate);
 }
