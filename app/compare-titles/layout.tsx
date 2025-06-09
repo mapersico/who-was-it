@@ -12,7 +12,7 @@ export default async function CompareTitlesLayout({ children }: { children: Reac
     <div className='compare-titles-page -fadeIn'>
       <SearchWrapper>
         <Link href="/compare-titles">
-          <Image src={Logo} alt="logo" width="200" height="180" />
+          <Image priority src={Logo} alt="logo" width="200" height="180" />
         </Link>
         <Suspense>
           {children}
