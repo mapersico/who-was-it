@@ -41,5 +41,5 @@ No user data is collected, and there is no need to create an account. It’s a t
 To start a local development server, run:
 
 ```bash
-
+  npm run dev
 ```
