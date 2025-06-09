@@ -10,12 +10,13 @@ interface ShareButtonProps {
 }
 
 export default function ShareButton({ titles }: ShareButtonProps) {
+  const host = location.host;
   const handleCopyUrl = async () => {
     try {
       const result = await fetch(`${Endpoints.shareUrl}?titles=${titles}`);
       const data: { id: string } = await result.json();
 
-      await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/shared-url?id=${data.id}`);
+      await navigator.clipboard.writeText(`${host}/shared-url?id=${data.id}`);
 
       toast.success("Copied to clipboard!");
     } catch {
