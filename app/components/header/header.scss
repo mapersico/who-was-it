@@ -17,6 +17,18 @@
     gap: 0.5rem;
   }
 
+  &_github {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+  }
+
   a {
     color: var(--brand-color);
     text-decoration: underline;
@@ -30,9 +42,10 @@
   }
 
   @media screen and (max-width: 768px) {
-    height: 40px;
-    font-size: 0.8rem;
+    height: auto;
+    font-size: 0.7rem;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     padding: 0 0.5rem;
   }

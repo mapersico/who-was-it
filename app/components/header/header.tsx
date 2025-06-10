@@ -9,7 +9,13 @@ export default function Header() {
         Powered by
         <Image src="/tmdb-logo.svg" alt="tmdb" width="120" height="50" />
       </p>
-      <p>Made with 💛 by <a target='_blank' href="https://github.com/mapersico">Marco</a></p>
+      <p className='header_github'>
+        <span>Made with 💛 by</span>
+        <a target='_blank' href="https://github.com/mapersico">
+          <Image src="/github.svg" alt="github" width="20" height="20" />
+          <span>Marco</span>
+        </a>
+      </p>
     </header>
   );
 }
