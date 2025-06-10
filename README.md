@@ -19,7 +19,7 @@ The primary goal of _WhoWasIt_ is to provide an intuitive interface to:
 - Display any shared actors, side by side
 - Show the characters they portrayed in each title
 
-This app fetches data from a third-party movie/TV API (e.g., TMDB or similar) and processes it through a custom Express backend to ensure reliability and formatting.
+This app fetches data from a third-party movie/TV API (TMDB) and processes it through a custom Express backend to ensure reliability and formatting.
 
 No user data is collected, and there is no need to create an account. It’s a tool made for everyone.
 
