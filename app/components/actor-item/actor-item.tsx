@@ -1,21 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import { ActorItem as ActorItemType } from "@/app/models/api.model";
 
 import './actor-item.scss';
+import { useState } from "react";
 
 interface ActorItemProps {
   item: ActorItemType;
 }
 
 const ActorItem = ({ item }: ActorItemProps) => {
+  const [notFound, setNotFound] = useState(false);
+
   return (
     <div className="actor">
       <div className="actor_poster_wrapper">
         <Image
           className="actor_poster"
-          src={item.profileUrl}
-          height={100}
-          width={100}
+          src={notFound ? "/movie-placeholder.webp" : item.profileUrl}
+          height={150}
+          width={110}
+          onError={() => setNotFound(true)}
           alt="poster"
         />
       </div>

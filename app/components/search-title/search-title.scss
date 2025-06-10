@@ -1,5 +1,5 @@
 .compare-titles-page {
-  height: 100vh;
+  height: calc(100vh - 40px);
   width: 100%;
   position: relative;
   background: radial-gradient(
@@ -83,10 +83,14 @@
   top: 28dvh;
 
   @media screen and (max-width: 768px) {
-    top: 2dvh;
+    top: 0dvh;
   }
 }
 
 .top-results {
-  top: 2dvh;
+  top: 0dvh;
+
+  @media screen and (max-width: 768px) {
+    top: 0dvh;
+  }
 }

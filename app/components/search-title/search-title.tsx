@@ -29,7 +29,7 @@ const SearchTitle = () => {
 
   const handleUrlRedirect = (path: string, titleToExclude?: MediaItem) => {
     const compressedTitles = compressToEncodedURIComponent(JSON.stringify(selectedTitles.filter((title) => title.id !== titleToExclude?.id)));
-    router.push(`${path}?titles=${compressedTitles}`);
+    router.push(`${path}${compressedTitles !== 'NoXSA' ? `?titles=${compressedTitles}` : ""}`);
   }
 
   return (
