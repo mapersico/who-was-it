@@ -3,8 +3,8 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Logo from "../../public/logo.svg";
-import TMDBLogo from "../../public/tmdb-logo.webp";
+import Logo from "../../public/logo.webp";
+import TMDBLogo from "../../public/tmdb-logo.svg";
 import SearchWrapper from '../components/search-wrapper/search-wrapper';
 
 export default async function CompareTitlesLayout({ children }: { children: React.ReactNode }) {
