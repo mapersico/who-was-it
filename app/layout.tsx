@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: "WhoWasIt",
     images: [
       {
-        url: "https://whowasit.site/logo.svg",
+        url: "https://whowasit.site/logo.webp",
         width: 1200,
         height: 630,
         alt: "WhoWasIt Logo",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Compare TV and Movies Titles | WhoWasIt?!",
     description: "Compare the cast of movies and TV shows with WhoWasIt!",
-    images: ["https://whowasit.site/logo.svg"],
+    images: ["https://whowasit.site/logo.webp"],
   },
 };
 
