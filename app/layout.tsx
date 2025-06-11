@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   title: "Compare Titles | WhoWasIt",
   description: "Compare the cast of movies and TV shows with WhoWasIt!",
   openGraph: {
-    title: "Compare TV and Movies Titles | WhoWasIt?!",
+    title: "Compare TV and Movies Titles | Who Was It?!",
     description: "Compare the cast of movies and TV shows with WhoWasIt!",
     url: "https://whowasit.site/compare-titles",
-    siteName: "WhoWasIt",
+    siteName: "Who Was It?!",
     images: [
       {
         url: "https://whowasit.site/logo.webp",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Compare TV and Movies Titles | WhoWasIt?!",
+    title: "Compare TV and Movies Titles | Who Was It?!",
     description: "Compare the cast of movies and TV shows with WhoWasIt!",
     images: ["https://whowasit.site/logo.webp"],
   },
