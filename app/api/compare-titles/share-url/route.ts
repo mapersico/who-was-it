@@ -12,7 +12,9 @@ export async function GET(request: Request) {
 
   const uuid = randomUUID();
   const db = await connectToDB();
-  await db.collection("sharedUrls").insertOne({ id: uuid, query: titles });
+  await db
+    .collection("sharedUrls")
+    .insertOne({ id: uuid, query: titles, createdAt: new Date() });
   const created = await db.collection("sharedUrls").findOne({ id: uuid });
 
   return new Response(JSON.stringify(created), {

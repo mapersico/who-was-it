@@ -6,9 +6,11 @@ interface DebouncedInputProps {
   placeholder?: string;
   delay?: number;
   className?: string;
-  onChange: (value: string) => void;
   type?: string;
   value?: string;
+  onChange: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 const DebouncedInput = ({
@@ -18,6 +20,8 @@ const DebouncedInput = ({
   placeholder = "Type something...",
   type = "text",
   value = "",
+  onFocus,
+  onBlur,
 }: DebouncedInputProps) => {
   const onChangeRef = useRef(onChange);
   useEffect(() => {
@@ -41,6 +45,8 @@ const DebouncedInput = ({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       className={className}
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   );
 };

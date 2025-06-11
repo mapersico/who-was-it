@@ -2,13 +2,14 @@
   border: 1px solid var(--brand-color-transparent);
   border-radius: 6px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 450px;
-  height: 150px;
+  height: calc(150px + 2px);
   overflow-y: auto;
   transition: all 200ms;
   display: grid;
   grid-template-columns: 110px calc(100% - 110px);
+  overflow-y: auto;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -16,7 +17,6 @@
   }
 
   &:hover {
-    transform: scale(1.02);
     box-shadow: 0 0 10px var(--brand-color);
   }
 
@@ -25,6 +25,7 @@
     transition: opacity 0.25s ease-in-out;
     border-radius: 6px 0px 0px 6px;
     display: block;
+    object-fit: cover;
 
     &.loaded {
       opacity: 1;
@@ -32,10 +33,11 @@
 
     &_wrapper {
       max-width: 100px;
-      height: 100%;
       border-radius: 6px 0px 0px 6px;
       position: relative;
       overflow: hidden;
+      position: sticky;
+      top: 0px;
     }
   }
 

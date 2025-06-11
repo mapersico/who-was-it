@@ -10,14 +10,19 @@
     background: transparent;
     border: none;
     transition: all 150ms ease-in-out;
-    border: none;
+    border: 1px solid var(--brand-color);
+    border-radius: 10px;
     font-size: 1rem;
+    height: 30px;
     background-color: transparent;
     padding: 0.5rem;
     cursor: pointer;
     position: relative;
+    display: flex;
+    align-items: center;
 
     &:hover {
+      box-shadow: 0 0 10px var(--brand-color);
       text-shadow: 0 0 10px var(--brand-color);
     }
   }

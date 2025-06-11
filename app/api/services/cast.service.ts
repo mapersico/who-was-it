@@ -64,6 +64,7 @@ function formatCastAdapter(cast: TmdbMovieCast | TmdbTvCast): AdaptedCast {
         {
           character: cast.character,
           episodeCount: 0,
+          id: "",
         },
       ],
     };
@@ -79,6 +80,7 @@ function formatCastAdapter(cast: TmdbMovieCast | TmdbTvCast): AdaptedCast {
       roles: cast.roles.map((role) => ({
         character: role.character,
         episodeCount: role.episode_count,
+        id: role.credit_id,
       })),
     };
   }
@@ -110,6 +112,7 @@ function _compareCasts(cast1: AdaptedCast[], cast2: AdaptedCast[]) {
             titleReleaseDate: actor.titleReleaseDate,
             posterUrl: "",
             episodeCount: role.episodeCount,
+            id: role.id,
           })),
           ...matchedActor.roles.map((role) => ({
             character: role.character,
@@ -117,13 +120,17 @@ function _compareCasts(cast1: AdaptedCast[], cast2: AdaptedCast[]) {
             titleReleaseDate: matchedActor.titleReleaseDate,
             posterUrl: "",
             episodeCount: role.episodeCount,
+            id: role.id,
           })),
         ],
+        totalEpisodes:
+          matchedActor.roles.reduce((acc, role) => acc + role.episodeCount, 0) +
+          actor.roles.reduce((acc, role) => acc + role.episodeCount, 0),
       };
       actorToAdd.roles = actorToAdd.roles.filter((role) => role.character);
       actorsInCommon.push(actorToAdd);
     }
   });
 
-  return actorsInCommon;
+  return actorsInCommon.sort((a, b) => b.totalEpisodes - a.totalEpisodes);
 }

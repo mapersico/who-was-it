@@ -44,6 +44,7 @@ export interface ActorItem {
   name: string;
   profileUrl: string;
   roles: RoleItem[];
+  totalEpisodes: number;
 }
 
 interface RoleItem {
@@ -52,6 +53,7 @@ interface RoleItem {
   titleReleaseDate: string;
   posterUrl: string;
   episodeCount: number;
+  id: string;
 }
 
 export interface TmdbTvRole {
@@ -157,6 +159,7 @@ export interface AdaptedCast {
 export interface AdaptedRole {
   character: string;
   episodeCount: number;
+  id: string;
 }
 
 export enum Endpoints {

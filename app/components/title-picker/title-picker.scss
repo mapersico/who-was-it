@@ -12,7 +12,7 @@
     position: relative;
     padding: 0.5rem 0;
     gap: 1rem;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.25s ease-in-out;
 
     &.load {
       box-shadow: 0 0 5px 5px var(--brand-color);
@@ -59,4 +59,8 @@
       text-align: center;
     }
   }
+}
+
+.focused {
+  box-shadow: 0 0 15px var(--brand-color);
 }

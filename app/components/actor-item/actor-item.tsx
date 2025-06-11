@@ -20,17 +20,17 @@ const ActorItem = ({ item }: ActorItemProps) => {
           className="actor_poster"
           src={notFound ? "/movie-placeholder.webp" : item.profileUrl}
           height={150}
-          width={110}
+          width={100}
           onError={() => setNotFound(true)}
           alt="poster"
         />
       </div>
-      <div style={{ padding: "0.5rem 0" }}>
+      <div style={{ padding: "0.5rem 0", display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
         <h3>{item.name}</h3>
         <ul className="actor_roles">
-          {item.roles.map((role) =>
-            <li key={role.character}>
-              {role.character} ({role.episodeCount} Eps) -
+          {item.roles.map((role, i) =>
+            <li key={i}>
+              {role.character} {role.episodeCount > 0 ? `(${role.episodeCount} Eps)` : ""} -
               <strong> {role.title}</strong>
             </li>
           )}

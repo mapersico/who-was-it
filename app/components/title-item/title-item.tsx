@@ -5,8 +5,6 @@ import './title-item.scss';
 import { MediaItem } from '@/app/models/api.model';
 import { useState } from 'react';
 
-import PlaceholderImage from "../../../public/movie-placeholder.webp";
-
 interface TitleItemProps {
   item: MediaItem;
   posterOnly?: boolean;
@@ -36,31 +34,18 @@ const TitleItem = ({ item, posterOnly = false, readOnly = false, onTitleSelect, 
             <p>Remove</p>
           </div>
         )}
-        {item.posterUrl ? <Image
+        <Image
           onLoad={({ currentTarget }) => {
             if (currentTarget.complete) {
               setLoaded(true);
             }
           }}
           className={`item_poster ${loaded ? "loaded" : ""}`}
-          src={item.posterUrl}
+          src={!item.posterUrl.length ? "/title-placeholder.webp" : item.posterUrl}
           height={90}
           width={50}
           alt="poster"
-        /> : (
-          <Image
-            onLoad={({ currentTarget }) => {
-              if (currentTarget.complete) {
-                setLoaded(true);
-              }
-            }}
-            className={`item_poster ${loaded ? "loaded" : ""}`}
-            src={PlaceholderImage}
-            height={90}
-            width={50}
-            alt="poster"
-          />
-        )}
+        />
       </div>
     </div>
   ) : (
@@ -71,7 +56,7 @@ const TitleItem = ({ item, posterOnly = false, readOnly = false, onTitleSelect, 
             if (currentTarget.complete) setLoaded(true);
           }}
           className={`item_poster ${loaded ? "loaded" : ""}`}
-          src={item.posterUrl}
+          src={!item.posterUrl.length ? "/title-placeholder.webp" : item.posterUrl}
           height={90}
           width={50}
           alt="poster"

@@ -13,6 +13,7 @@ interface TitlePickerProps {
 }
 
 export const TitlePicker = ({ onTitleRemoved }: TitlePickerProps) => {
+  const [focused, setFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const { selectedTitles, searchedTitles, setSelectedTitles, setSearchedTitles } =
@@ -40,22 +41,24 @@ export const TitlePicker = ({ onTitleRemoved }: TitlePickerProps) => {
   }
 
   return (
-    <div className={`title-picker_wrapper ${loading ? "load" : ""}`}>
+    <div className={`title-picker_wrapper${loading ? " load" : ""} ${focused ? "focused" : ""}`}>
       {selectedTitles.length ? <div className="title-picker_selected" >
         {selectedTitles.map((title) => (
           <TitleItem posterOnly onTitleRemove={handleTitleRemove} key={title.id} item={title} />
         ))}
       </div> : null}
       <DebouncedInput
-        onChange={(query) => handleSearch(query)}
+        type="text"
+        className="title-picker_input"
+        placeholder="Search for a movie or TV show"
         delay={500}
         value={searchValue}
-        placeholder="Search for a movie or TV show"
-        className="title-picker_input"
-        type="text"
+        onChange={(query) => handleSearch(query)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
       {searchedTitles.length ? <div className="title-picker_result" >
-        {searchedTitles.map((title) => (
+        {searchedTitles.filter((title) => !selectedTitles.find((selectedTitle) => selectedTitle.id === title.id)).map((title) => (
           <TitleItem onTitleSelect={handleTitleSelect} key={title.id} item={title} />
         ))}
       </div> : null}
