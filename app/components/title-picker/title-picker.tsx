@@ -3,10 +3,10 @@
 import './title-picker.scss';
 import { useTitleContext } from '@/app/hooks/useTitle/title.context';
 
-import DebouncedInput from "../debounced-input/debounced-input";
 import TitleItem from '../title-item/title-item';
 import { Endpoints, MediaItem } from '@/app/models/api.model';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import useDebounce from '@/app/hooks/useDebounce/use-debounce';
 
 interface TitlePickerProps {
   onTitleRemoved?: (item: MediaItem) => void;
@@ -15,11 +15,11 @@ interface TitlePickerProps {
 export const TitlePicker = ({ onTitleRemoved }: TitlePickerProps) => {
   const [focused, setFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const debouncedValue = useDebounce(searchValue, 500);
   const [loading, setLoading] = useState(false);
   const { selectedTitles, searchedTitles, setSelectedTitles, setSearchedTitles } =
     useTitleContext();
-
-  const handleSearch = async (query: string) => {
+  const handleSearch = useCallback(async (query: string) => {
     setSearchValue(query);
     if (query.length < 3) return setSearchedTitles([]);
     setLoading(true);
@@ -27,7 +27,12 @@ export const TitlePicker = ({ onTitleRemoved }: TitlePickerProps) => {
     const data = await result.json();
     setSearchedTitles(data);
     setLoading(false);
-  };
+  }, [setSearchedTitles]);
+
+  useEffect(() => {
+    handleSearch(debouncedValue);
+  }, [debouncedValue, handleSearch]);
+
 
   const handleTitleRemove = (item: MediaItem) => {
     if (onTitleRemoved) onTitleRemoved(item);
@@ -47,13 +52,12 @@ export const TitlePicker = ({ onTitleRemoved }: TitlePickerProps) => {
           <TitleItem posterOnly onTitleRemove={handleTitleRemove} key={title.id} item={title} />
         ))}
       </div> : null}
-      <DebouncedInput
+      <input
         type="text"
         className="title-picker_input"
         placeholder="Search for a movie or TV show"
-        delay={500}
         value={searchValue}
-        onChange={(query) => handleSearch(query)}
+        onChange={(e) => setSearchValue(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       />

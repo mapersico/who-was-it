@@ -17,6 +17,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "storage.ko-fi.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

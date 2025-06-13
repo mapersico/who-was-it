@@ -4,6 +4,7 @@ import "./globals.css";
 import { TitleProvider } from "./hooks/useTitle/title.context";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
+import KofiWidget from "./components/ko-fi-widget/ko-fi-widget";
 
 const geistSans = Poppins({
   variable: "--font-geist-sans",
@@ -63,6 +64,7 @@ export default function RootLayout({
             />
           </TitleProvider>
         </Suspense>
+        <KofiWidget />
       </body>
     </html>
   );
