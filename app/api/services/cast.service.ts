@@ -12,6 +12,7 @@ import {
 } from "@/app/models/api.model";
 import { fetchJson } from "../utils/utils";
 import { _tmdbPosterBaseUrl, tmdbEndpoints } from "./tmdb.service";
+import { connectToDB } from "../utils/db";
 
 export async function getCastInCommon(titles: MediaItem[]) {
   const casts: Array<AdaptedCast[]> = [];
@@ -27,9 +28,16 @@ export async function getCastInCommon(titles: MediaItem[]) {
     if (cast) casts.push(cast);
   }
   const castInCommon: ActorItem[] = _compareCasts(casts[0], casts[1]);
-
+  await saveSearch(titles);
   return castInCommon;
 }
+
+const saveSearch = async (titles: MediaItem[]) => {
+  const db = await connectToDB();
+  await db
+    .collection("searches")
+    .insertOne({ titles: JSON.stringify(titles), createdAt: new Date() });
+};
 
 async function _getCastByTitleId(titleId: number, mediaType: MediaType) {
   if (mediaType === MediaType.movie) {
