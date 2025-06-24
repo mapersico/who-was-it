@@ -16,6 +16,7 @@ import { connectToDB } from "../utils/db";
 
 export async function getCastInCommon(titles: MediaItem[]) {
   const casts: Array<AdaptedCast[]> = [];
+
   for (const title of titles) {
     const cast = (await _getCastByTitleId(title.id, title.mediaType)).map(
       (cast) => ({
@@ -25,9 +26,10 @@ export async function getCastInCommon(titles: MediaItem[]) {
         titleReleaseDate: title.releaseDate || "",
       })
     );
-    if (cast) casts.push(cast);
+    casts.push(cast);
   }
-  const castInCommon: ActorItem[] = _compareCasts(casts[0], casts[1]);
+
+  const castInCommon: ActorItem[] = _compareMultipleCasts(casts);
   await saveSearch(titles);
   return castInCommon;
 }
@@ -104,41 +106,54 @@ function formatCastAdapter(cast: TmdbMovieCast | TmdbTvCast): AdaptedCast {
   };
 }
 
-function _compareCasts(cast1: AdaptedCast[], cast2: AdaptedCast[]) {
-  const actorsInCommon: ActorItem[] = [];
-  cast1.forEach((actor) => {
-    const matchedActor = cast2.find((actor2) => actor2.id === actor.id);
-    if (matchedActor) {
-      const actorToAdd = {
-        id: actor.id,
-        name: actor.name,
-        profileUrl: actor.profileUrl,
-        roles: [
-          ...actor.roles.map((role) => ({
-            character: role.character,
-            title: actor.title,
-            titleReleaseDate: actor.titleReleaseDate,
-            posterUrl: "",
-            episodeCount: role.episodeCount,
-            id: role.id,
-          })),
-          ...matchedActor.roles.map((role) => ({
-            character: role.character,
-            title: matchedActor.title,
-            titleReleaseDate: matchedActor.titleReleaseDate,
-            posterUrl: "",
-            episodeCount: role.episodeCount,
-            id: role.id,
-          })),
-        ],
-        totalEpisodes:
-          matchedActor.roles.reduce((acc, role) => acc + role.episodeCount, 0) +
-          actor.roles.reduce((acc, role) => acc + role.episodeCount, 0),
-      };
-      actorToAdd.roles = actorToAdd.roles.filter((role) => role.character);
-      actorsInCommon.push(actorToAdd);
-    }
-  });
+function _compareMultipleCasts(casts: AdaptedCast[][]): ActorItem[] {
+  const actorMap = new Map<number, AdaptedCast[]>();
 
-  return actorsInCommon.sort((a, b) => b.totalEpisodes - a.totalEpisodes);
+  // Agrupar todos los actores por ID
+  for (const cast of casts) {
+    const seenInThisCast = new Set<number>();
+
+    for (const actor of cast) {
+      if (seenInThisCast.has(actor.id)) continue;
+      seenInThisCast.add(actor.id);
+
+      if (!actorMap.has(actor.id)) {
+        actorMap.set(actor.id, []);
+      }
+      actorMap.get(actor.id)!.push(actor);
+    }
+  }
+
+  const commonActors: ActorItem[] = [];
+
+  for (const [id, appearances] of actorMap.entries()) {
+    if (appearances.length >= 2) {
+      const allRoles = appearances.flatMap((a) =>
+        a.roles.map((role) => ({
+          character: role.character,
+          title: a.title,
+          titleReleaseDate: a.titleReleaseDate,
+          posterUrl: "", // Agregá el poster si lo necesitás
+          episodeCount: role.episodeCount,
+          id: role.id,
+        }))
+      );
+
+      const totalEpisodes = allRoles.reduce(
+        (acc, role) => acc + (role.episodeCount || 0),
+        0
+      );
+
+      commonActors.push({
+        id,
+        name: appearances[0].name,
+        profileUrl: appearances[0].profileUrl,
+        roles: allRoles.filter((r) => r.character),
+        totalEpisodes,
+      });
+    }
+  }
+
+  return commonActors.sort((a, b) => b.totalEpisodes - a.totalEpisodes);
 }
+

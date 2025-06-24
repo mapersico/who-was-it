@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 
 import { useTitleContext } from "@/app/hooks/useTitle/title.context";
@@ -14,7 +14,6 @@ const SearchTitle = () => {
   const searchParams = useSearchParams();
   const { selectedTitles, setSelectedTitles } = useTitleContext();
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     try {
@@ -37,7 +36,7 @@ const SearchTitle = () => {
       <p>Compare the cast of movies and TV shows</p>
       <TitlePicker onTitleRemoved={(item) => handleUrlRedirect("/compare-titles", item)} />
       <div className="compare-titles-page_actions">
-        {selectedTitles.length === 2 && !pathname.includes("/results") && (
+        {selectedTitles.length >= 2 && (
           <button onClick={() => handleUrlRedirect("/compare-titles/results")} className="compare-titles-page_action">
             Compare
           </button>
