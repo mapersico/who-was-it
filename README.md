@@ -1,5 +1,7 @@
 # 🎬 WhoWasIt
 
+_[🌐 Leer en Español](README.es.md)_
+
 **WhoWasIt** is a public-facing web application that helps you answer one of the most common questions when watching TV shows or movies:
 
 > **“Where else have I seen that actor?”**
